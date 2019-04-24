@@ -2,6 +2,7 @@ require_relative 'view'
 
 module Simpler
   class Controller
+    CONTENT_TYPES = { plain: 'text/plain', html: 'text/html' }
 
     attr_reader :name, :request, :response
 
@@ -47,7 +48,14 @@ module Simpler
     end
 
     def render(template)
-      @request.env['simpler.template'] = template
+      if template.is_a?(Hash)
+        type = template.keys[0]
+        @response['Content-Type'] = CONTENT_TYPES[type]
+        @request.env['simpler.template'] = template[type]
+        @request.env['simpler.template_type'] = type
+      else
+        @request.env['simpler.template'] = template
+      end
     end
 
   end
