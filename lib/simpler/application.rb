@@ -28,7 +28,9 @@ module Simpler
 
     def call(env)
       route = @router.route_for(env)
+      
       if route
+        env['simpler.route_params'] = route.params
         controller = route.controller.new(env)
         action = route.action
         make_response(controller, action)
