@@ -2,6 +2,7 @@ require_relative 'view'
 
 module Simpler
   class Controller
+    CONTENT_TYPES = { plain: 'text/plain', html: 'text/html' }
 
     attr_reader :name, :request, :response
 
@@ -14,6 +15,7 @@ module Simpler
     def make_response(action)
       @request.env['simpler.controller'] = self
       @request.env['simpler.action'] = action
+      update_route_params
 
       set_default_headers
       send(action)
@@ -22,7 +24,16 @@ module Simpler
       @response.finish
     end
 
+    def params
+      @request.params 
+    end
+
     private
+
+    def update_route_params
+      route_params = @request.env['simpler.route_params']
+      route_params.each{ |k, v| params[k] = v }
+    end
 
     def extract_name
       self.class.name.match('(?<name>.+)Controller')[:name].downcase
@@ -42,12 +53,23 @@ module Simpler
       View.new(@request.env).render(binding)
     end
 
-    def params
-      @request.params
+    def render(template)
+      if template.is_a?(Hash)
+        type = template.keys[0]
+        headers['Content-Type'] = CONTENT_TYPES[type]
+        @request.env['simpler.template'] = template[type]
+        @request.env['simpler.template_type'] = type
+      else
+        @request.env['simpler.template'] = template
+      end
     end
 
-    def render(template)
-      @request.env['simpler.template'] = template
+    def status(code)
+      @response.status = code
+    end
+
+    def headers
+      @response
     end
 
   end

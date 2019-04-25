@@ -28,10 +28,15 @@ module Simpler
 
     def call(env)
       route = @router.route_for(env)
-      controller = route.controller.new(env)
-      action = route.action
-
-      make_response(controller, action)
+      
+      if route
+        env['simpler.route_params'] = route.params
+        controller = route.controller.new(env)
+        action = route.action
+        make_response(controller, action)
+      else
+        error_response(404, "Page not found!\n")
+      end
     end
 
     private
@@ -52,6 +57,10 @@ module Simpler
 
     def make_response(controller, action)
       controller.make_response(action)
+    end
+
+    def error_response(code,body)
+      response = Rack::Response.new([body],code,{'Content-Type' => 'text/html'})
     end
 
   end

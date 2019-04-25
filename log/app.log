@@ -1,0 +1,32 @@
+I, [2019-04-25T14:19:21.346775 #14965]  INFO -- : Request: GET /test/1
+     Handler: TestsController#show
+     Parameters: {:id=>"1"}
+     Response: 200 [text/html] tests/show
+
+I, [2019-04-25T14:20:32.404227 #15058]  INFO -- : Request: GET /test/1
+     Handler: TestsController#show
+     Parameters: {:id=>"1"}
+     Response: 200 [text/html] tests/show
+
+I, [2019-04-25T14:22:12.268660 #15213]  INFO -- : Request: GET /test/1
+     Handler: TestsController#show
+     Parameters: {:id=>"1"}
+     Response: 200 [text/html] tests/show
+
+I, [2019-04-25T14:22:39.763076 #15273]  INFO -- : Request: GET /test/1
+     Handler: TestsController#show
+     Parameters: {:id=>"1"}
+     Response: 200 [text/html] tests/show
+
+I, [2019-04-25T14:28:37.022069 #15857]  INFO -- : Request: GET /test/1
+Handler: TestsController#show
+Parameters: {:id=>"1"}
+Response: 200 [text/html] tests/show
+------------------------------------------------------------  
+
+I, [2019-04-25T14:29:13.555959 #15931]  INFO -- : Request: GET /tests
+Handler: TestsController#index
+Parameters: {}
+Response: 200 [text/plain] Hello
+------------------------------------------------------------  
+
