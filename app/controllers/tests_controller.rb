@@ -1,6 +1,7 @@
 class TestsController < Simpler::Controller
 
   def index
+    headers['X-Header'] = 'Hello'
     render plain: 'Hello'
   end
 
